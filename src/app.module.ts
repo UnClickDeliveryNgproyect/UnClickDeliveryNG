@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './modules/users/users.module';
-import { config } from 'process';
+//import { config } from 'process'; // No es necesario importar 'config' de 'process' para acceder a las variables de entorno por eso se descarta
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { BusinessModule } from './modules/business/business.module';
 
 @Module({
   imports: [
@@ -17,9 +18,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: true
+      synchronize: true,
     }),
-],
+    BusinessModule,
+  ],
   controllers: [],
   providers: [],
 })
