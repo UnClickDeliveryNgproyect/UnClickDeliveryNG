@@ -3,10 +3,11 @@ import { UsersModule } from './modules/users/users.module';
 //import { config } from 'process'; // No es necesario importar 'config' de 'process' para acceder a las variables de entorno por eso se descarta
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BusinessModule } from './modules/business/business.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     UsersModule,
     ConfigModule.forRoot(),
 
