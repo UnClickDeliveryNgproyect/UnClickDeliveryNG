@@ -4,11 +4,13 @@ import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
+import { BusinessModule } from './modules/business/business.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
+    BusinessModule,
     ConfigModule.forRoot(),
 
     TypeOrmModule.forRoot({
@@ -21,7 +23,7 @@ import { AuthModule } from './modules/auth/auth.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    BusinessModule,
+    
   ],
   controllers: [],
   providers: [],
