@@ -5,12 +5,16 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { BusinessModule } from './modules/business/business.module';
+//import { ProductModule } from './modules/products/products.module';
+//import { CategoriesModule } from './modules/Categories/categories.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     BusinessModule,
+    //CategoriesModule,
+    //ProductModule,
     ConfigModule.forRoot(),
 
     TypeOrmModule.forRoot({
