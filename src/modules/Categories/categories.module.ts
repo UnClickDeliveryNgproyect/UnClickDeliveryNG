@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { Category } from "./entities/category.entity";
-import { TypeOrmModule } from "@nestjs/typeorm/dist/typeorm.module";
-import { ConfigModule } from "@nestjs/config/dist/config.module";
+import { TypeOrmModule } from "@nestjs/typeorm"; 
+import { ConfigModule } from "@nestjs/config"; 
 
 
 @Module({

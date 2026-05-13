@@ -1,4 +1,4 @@
-import { Category } from "../../Categories/entities/category.entity";
+import { Category } from "../../categories/entities/category.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Business } from "../../business/entities/business.entity";
 
