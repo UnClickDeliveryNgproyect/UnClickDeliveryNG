@@ -13,14 +13,14 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-    @Column({ type: 'varchar', length: 50, unique: true })
-    username: string;
+  @Column({ type: 'varchar', length: 50, unique: true })
+  username: string;
 
   @Column({ type: 'varchar', length: 50, unique: true })
   email: string;
 
-    @Column({ type: 'varchar', length: 255 })
-    password: string;
+  @Column({ type: 'varchar', length: 255 })
+  password: string;
 
   @Column({ type: 'varchar', length: 50 })
   role: string;
@@ -32,8 +32,8 @@ export class User {
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
 
-    // src/modules/users/entities/users.entity.ts
+  // src/modules/users/entities/users.entity.ts
 
-    @DeleteDateColumn({ type: 'timestamp', nullable: true }) // Quita el default () => 'CURRENT_TIMESTAMP'
-    deleted_at: Date;
+  @DeleteDateColumn({ type: 'timestamp', nullable: true }) // Quita el default () => 'CURRENT_TIMESTAMP'
+  deleted_at: Date;
 }

@@ -27,7 +27,6 @@ import { BusinessModule } from './modules/business/business.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    
   ],
   controllers: [],
   providers: [],
