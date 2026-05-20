@@ -1,6 +1,12 @@
-import { Category } from "../../Categories/entities/category.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Business } from "../../business/entities/business.entity";
+import { Category } from '../../Categories/entities/category.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Business } from '../../business/entities/business.entity';
 
 @Entity()
 export class Product {
@@ -20,12 +26,12 @@ export class Product {
   image_url: string;
 
   @Column({ default: true })
-  is_available: boolean;  
+  is_available: boolean;
 
   @Column()
   business_id: number;
   @Column()
-  category_id: number; 
+  category_id: number;
   // Relaciones
   @ManyToOne(() => Business)
   @JoinColumn({ name: 'business_id' })
