@@ -1,21 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
-import { Product } from '../../products/entities/product.entity';
-import { Business } from '../../business/entities/business.entity';
+import { Business } from 'src/modules/business/entities/business.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
-
-  @Column()
-  business_id: number;
-
-  @ManyToOne(() => Business, (business) => business.categories)
+  @ManyToOne(() => Business, (business) => business.category)
+  @JoinColumn({ name: 'business_id' })
   business: Business;
 
-  @OneToMany(() => Product, (product) => product.category)
-  products: Product[];
+  @Column({ type: 'varchar', length: 100 })
+  name: string;
 }

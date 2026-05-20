@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Category } from './entities/category.entity';
+import { Category } from '../entities/category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,6 +12,5 @@ export class CategoriesService {
 
   findAllByBusiness(businessId: number) {
     return this.categoryRepository.find({ where: { business_id: businessId } });
-  }  
-  
+  }
 }
