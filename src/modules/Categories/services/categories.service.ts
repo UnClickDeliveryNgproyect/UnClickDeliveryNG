@@ -3,7 +3,6 @@ import { Category } from '../entities/category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-
 @Injectable()
 export class CategoriesService {
   constructor(
@@ -11,9 +10,9 @@ export class CategoriesService {
     private categoryRepository: Repository<Category>,
   ) {}
 
-  findAllByBusiness(businessId: number) {
-    return this.categoryRepository.find({ where: { business_id: businessId } });
-  }  
-  
+  async findAllByBusiness(businessId: number): Promise<Category[]> {
+    return this.categoryRepository.find({
+      where: { business: { id: businessId } },
+    });
+  }
 }
-//
