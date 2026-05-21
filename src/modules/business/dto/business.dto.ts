@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsMilitaryTime, IsNotEmpty, IsPositive } from 'class-validator';
+import {
+  IsMilitaryTime,
+  IsNotEmpty,
+  IsBoolean,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateBusinessDto {
-  @ApiProperty()
-  @IsPositive()
-  @IsNotEmpty()
-  id: number;
-
   @ApiProperty()
   @IsNotEmpty()
   name: string;
@@ -19,17 +19,18 @@ export class CreateBusinessDto {
   @IsNotEmpty()
   logo_url: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
-  is_active: boolean;
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsBoolean()
+  is_active?: boolean;
 
-  @ApiProperty()
-  @IsNotEmpty()
+  @ApiProperty({ required: false })
+  @IsOptional()
   @IsMilitaryTime()
-  opening_time: string;
+  opening_time?: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
+  @ApiProperty({ required: false })
+  @IsOptional()
   @IsMilitaryTime()
-  closing_time: string;
+  closing_time?: string;
 }
