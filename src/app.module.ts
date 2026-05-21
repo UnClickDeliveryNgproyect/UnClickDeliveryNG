@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { BusinessModule } from './modules/business/business.module';
-//import { ProductModule } from './modules/products/products.module';
+import { ProductModule } from './modules/products/products.module';
 //import { CategoriesModule } from './modules/Categories/categories.module';
 
 @Module({
@@ -14,7 +14,7 @@ import { BusinessModule } from './modules/business/business.module';
     UsersModule,
     BusinessModule,
     //CategoriesModule,
-    //ProductModule,
+    ProductModule,
     ConfigModule.forRoot(),
 
     TypeOrmModule.forRoot({
