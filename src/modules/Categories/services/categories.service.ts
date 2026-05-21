@@ -5,6 +5,9 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoriesService {
+  createCategory() {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
