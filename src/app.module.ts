@@ -6,15 +6,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { BusinessModule } from './modules/business/business.module';
 import { ProductModule } from './modules/products/products.module';
-//import { CategoriesModule } from './modules/Categories/categories.module';
+import { CategoriesModule } from './modules/Categories/categories.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     BusinessModule,
-    //CategoriesModule,
+    CategoriesModule,
     ProductModule,
+    OrdersModule,
     ConfigModule.forRoot(),
 
     TypeOrmModule.forRoot({
