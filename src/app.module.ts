@@ -8,6 +8,7 @@ import { BusinessModule } from './modules/business/business.module';
 import { ProductModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/Categories/categories.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { OrderItemsModule } from './modules/order-items/order-items.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { OrdersModule } from './modules/orders/orders.module';
     CategoriesModule,
     ProductModule,
     OrdersModule,
+    OrderItemsModule,
     ConfigModule.forRoot(),
 
     TypeOrmModule.forRoot({
