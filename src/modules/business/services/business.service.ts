@@ -17,4 +17,8 @@ export class BusinessService {
   async getAllBusinesses(): Promise<Business[]> {
     return this.businessRepository.find();
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4a9a0ddc6fb72bb14e54faf3208610aeefe3c1e1

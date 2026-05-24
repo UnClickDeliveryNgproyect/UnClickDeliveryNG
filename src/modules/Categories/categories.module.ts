@@ -13,4 +13,9 @@ import { ConfigModule } from "@nestjs/config/dist/config.module";
     providers: [],
     exports: [],
 })
+<<<<<<< HEAD
 export class CategoriesModule {}
+=======
+export class CategoriesModule {}
+//
+>>>>>>> 4a9a0ddc6fb72bb14e54faf3208610aeefe3c1e1

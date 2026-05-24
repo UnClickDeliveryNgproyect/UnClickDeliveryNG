@@ -20,4 +20,8 @@ export class CreateProductDto {
 
   @IsInt()
   category_id: number;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4a9a0ddc6fb72bb14e54faf3208610aeefe3c1e1
