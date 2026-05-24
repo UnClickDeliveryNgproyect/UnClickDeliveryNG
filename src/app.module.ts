@@ -7,7 +7,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { BusinessModule } from './modules/business/business.module';
 import { ProductModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/Categories/categories.module';
-import { OrdersModule } from './orders/orders.module';
+import { OrdersModule } from './modules/orders/orders.module';
 
 @Module({
   imports: [
