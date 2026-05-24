@@ -5,14 +5,16 @@ import { User } from '../entities/users.entity';
 
 @Injectable()
 export class UsersService {
-  findAll() {
-    throw new Error('Method not implemented.');
-  }
-
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
+
+  async findAll() {
+    return await this.userRepository.find({
+      select: ['id', 'username', 'email', 'role', 'created_at', 'updated_at'],
+    });
+  }
 
   async create(data: any) {
     const user = this.userRepository.create(data);
