@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import { Controller } from "@nestjs/common";
-
-
-@Controller("products")
-export class ProductController {}
-=======
 import { Controller, Get, Post } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
 
@@ -22,4 +15,3 @@ export class ProductController {
     return await this.productsService.createProduct();
   }
 }
->>>>>>> 4a9a0ddc6fb72bb14e54faf3208610aeefe3c1e1

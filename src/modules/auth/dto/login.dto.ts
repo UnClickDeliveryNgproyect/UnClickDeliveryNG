@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-export class LoginDto {
-
-  username?: string;
-
-  email?: string;
-
-  password: string;
-
-}
-=======
 import { ApiProperty } from '@nestjs/swagger';
 
 export class LoginDto {
@@ -21,4 +10,3 @@ export class LoginDto {
   @ApiProperty()
   password: string;
 }
->>>>>>> 4a9a0ddc6fb72bb14e54faf3208610aeefe3c1e1
