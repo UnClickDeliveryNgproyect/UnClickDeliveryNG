@@ -3,13 +3,13 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class ProductsService {
   createProduct() {
-    throw new Error('Method not implemented.');
+    return { message: 'Producto creado exitosamente' };
   }
   getAllProducts() {
-    throw new Error('Method not implemented.');
+    return { message: 'Obteniendo todos los productos' };
   }
   findAll() {
-    throw new Error('Method not implemented.');
+    return { message: 'Todos los productos' };
   }
 
   async create(data: any) {
