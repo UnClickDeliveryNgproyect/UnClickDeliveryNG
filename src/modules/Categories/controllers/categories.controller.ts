@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import { Controller } from "@nestjs/common";
-
-
-@Controller("categories")
-export class CategoriesController {}
-=======
 import { Controller, Get, Param } from '@nestjs/common';
 import { CategoriesService } from '../services/categories.service';
 
@@ -17,4 +10,3 @@ export class CategoriesController {
     return this.categoriesService.findAllByBusiness(businessId);
   }
 }
->>>>>>> 4a9a0ddc6fb72bb14e54faf3208610aeefe3c1e1
