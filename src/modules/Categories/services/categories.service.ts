@@ -13,6 +13,25 @@ export class CategoriesService {
   async findAllByBusiness(businessId: number): Promise<Category[]> {
     return this.categoryRepository.find({
       where: { business: { id: businessId } },
+      relations: ['business', 'products'],
     });
+  }
+
+  async findAll(): Promise<Category[]> {
+    return this.categoryRepository.find({
+      relations: ['business', 'products'],
+    });
+  }
+
+  async findOne(id: number): Promise<Category> {
+    return this.categoryRepository.findOne({
+      where: { id },
+      relations: ['business', 'products'],
+    });
+  }
+
+  async create(createCategoryDto: any): Promise<Category> {
+    const category = this.categoryRepository.create(createCategoryDto);
+    return (await this.categoryRepository.save(category)) as unknown as Category;
   }
 }

@@ -16,11 +16,16 @@ export class OrderItemsService {
   }
 
   async findAll() {
-    return this.orderItemsRepository.find();
+    return this.orderItemsRepository.find({
+      relations: ['order', 'product'],
+    });
   }
 
   async findOne(id: number) {
-    return this.orderItemsRepository.findOneBy({ id });
+    return this.orderItemsRepository.findOne({
+      where: { id },
+      relations: ['order', 'product'],
+    });
   }
 
   async update(id: number, updateOrderItemDto: any) {

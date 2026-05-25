@@ -15,6 +15,15 @@ export class BusinessService {
   }
 
   async getAllBusinesses(): Promise<Business[]> {
-    return this.businessRepository.find();
+    return this.businessRepository.find({
+      relations: ['owner', 'employees', 'categories', 'orders'],
+    });
+  }
+
+  async getBusinessById(id: number): Promise<Business> {
+    return this.businessRepository.findOne({
+      where: { id },
+      relations: ['owner', 'employees', 'categories', 'orders'],
+    });
   }
 }

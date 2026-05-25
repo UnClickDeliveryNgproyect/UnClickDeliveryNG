@@ -1,5 +1,14 @@
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Category } from 'src/modules/Categories/entities/category.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../../users/entities/users.entity';
+import { Order } from '../../orders/entities/order.entity';
 
 @Entity()
 export class Business {
@@ -24,6 +33,23 @@ export class Business {
   @Column({ type: 'time', nullable: true })
   closing_time: string;
 
+  @Column({ type: 'int', nullable: true })
+  owner_id: number;
+
+  // Relación: Un negocio pertenece a un usuario propietario
+  @ManyToOne(() => User, (user) => user.ownedBusinesses)
+  @JoinColumn({ name: 'owner_id' })
+  owner: User;
+
+  // Relación: Un negocio tiene múltiples empleados/usuarios
+  @OneToMany(() => User, (user) => user.business)
+  employees: User[];
+
+  // Relación: Un negocio tiene múltiples categorías
   @OneToMany(() => Category, (category) => category.business)
-  category: Category[];
+  categories: Category[];
+
+  // Relación: Un negocio puede tener múltiples órdenes
+  @OneToMany(() => Order, (order) => order.business)
+  orders: Order[];
 }
