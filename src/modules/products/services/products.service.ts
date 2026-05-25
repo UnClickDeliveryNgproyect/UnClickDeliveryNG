@@ -1,34 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Product } from '../entities/product.entity';
+import { CreateProductDto } from '../dto/create-product.dto';
+import { UpdateProductDto } from '../dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
-  createProduct() {
-    return { message: 'Producto creado exitosamente' };
-  }
-  getAllProducts() {
-    return { message: 'Obteniendo todos los productos' };
-  }
-  findAll() {
-    return { message: 'Todos los productos' };
+  constructor(
+    @InjectRepository(Product)
+    private productRepository: Repository<Product>,
+  ) {}
+
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    const product = this.productRepository.create(createProductDto);
+    return this.productRepository.save(product);
   }
 
-  async create(data: any) {
-    // crear un producto
-    return { message: 'Producto creado', data };
+  async findAll(): Promise<Product[]> {
+    return this.productRepository.find({
+      relations: ['business', 'category'],
+    });
   }
 
-  async update(id: number, data: any) {
-    // actualizar un producto
-    return { message: `Producto con id ${id} actualizado`, data };
+  async findOne(id: number): Promise<Product> {
+    const product = await this.productRepository.findOne({
+      where: { id },
+      relations: ['business', 'category'],
+    });
+    if (!product) {
+      throw new NotFoundException(`Product #${id} not found`);
+    }
+    return product;
   }
 
-  async delete(id: number) {
-    // eliminar un producto
-    return { message: `Producto con id ${id} eliminado` };
+  async findByBusiness(businessId: number): Promise<Product[]> {
+    return this.productRepository.find({
+      where: { business_id: businessId },
+      relations: ['business', 'category'],
+    });
   }
 
-  async findById(id: number) {
-    //buscar producto por id
-    return { message: `Producto con id ${id} encontrado`, data: { id } };
+  async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
+    const product = await this.productRepository.preload({
+      id,
+      ...updateProductDto,
+    });
+    if (!product) {
+      throw new NotFoundException(`Product #${id} not found`);
+    }
+    return this.productRepository.save(product);
+  }
+
+  async delete(id: number): Promise<Product> {
+    const product = await this.findOne(id);
+    return this.productRepository.remove(product);
   }
 }

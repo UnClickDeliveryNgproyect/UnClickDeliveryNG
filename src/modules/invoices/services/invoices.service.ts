@@ -19,12 +19,15 @@ export class InvoicesService {
   }
 
   async findAll() {
-    return await this.invoiceRepository.find();
+    return await this.invoiceRepository.find({
+      relations: ['order'],
+    });
   }
 
   async findOne(id: number) {
     return await this.invoiceRepository.findOne({
       where: { id },
+      relations: ['order'],
     });
   }
 

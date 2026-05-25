@@ -13,6 +13,7 @@ export class UsersService {
   async findAll() {
     return await this.userRepository.find({
       select: ['id', 'username', 'email', 'role', 'created_at', 'updated_at'],
+      relations: ['business', 'orders', 'ownedBusinesses', 'deliveries'],
     });
   }
 

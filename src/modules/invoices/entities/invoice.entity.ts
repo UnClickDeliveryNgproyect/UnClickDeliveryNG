@@ -3,7 +3,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Order } from '../../orders/entities/order.entity';
 
 @Entity('invoices')
 export class Invoice {
@@ -21,4 +24,9 @@ export class Invoice {
 
   @CreateDateColumn()
   generated_at: Date;
+
+  // Relación: Una factura pertenece a una orden
+  @ManyToOne(() => Order, (order) => order.invoice)
+  @JoinColumn({ name: 'order_id' })
+  order: Order;
 }
