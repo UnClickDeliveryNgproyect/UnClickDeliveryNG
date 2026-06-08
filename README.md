@@ -15,7 +15,6 @@ ORM: TypeORM
 ## Pasos para trabajar el proyecto
 
 1. Clonar el repositorio
-*git clone https://github.com/UnClickDeliveryNgproyect/UnClickDeliveryNG.git
 2. Entrar al proyecto
 *cd UnClickDeliveryNG
 3. Descargar dependencia
