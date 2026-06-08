@@ -17,6 +17,9 @@ export class Category {
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  description: string;
+
   @Column({ type: 'int', nullable: true })
   business_id: number;
 
