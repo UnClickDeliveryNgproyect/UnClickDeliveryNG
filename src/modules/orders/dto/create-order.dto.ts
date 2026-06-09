@@ -1,14 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsNumber, IsOptional, IsString, IsEnum } from 'class-validator';
+import { PaymentMethod, OrderStatus } from '../enums';
 
 export class CreateOrderDto {
   @ApiProperty()
   @IsNumber()
   total_amount: number;
 
-  @ApiProperty()
-  @IsString()
-  status: string;
+  @ApiProperty({
+    enum: OrderStatus,
+    enumName: 'OrderStatus',
+    description:
+      'Order status: pending, confirmed, in_transit, delivered, cancelled, returned',
+  })
+  @IsEnum(OrderStatus)
+  status: OrderStatus;
 
   @ApiProperty()
   @IsNumber()
@@ -22,9 +28,11 @@ export class CreateOrderDto {
   @IsString()
   delivery_address: string;
 
-  @ApiProperty()
-  @IsString()
-  payment_method: string;
+  @ApiProperty({
+    default: PaymentMethod.CASH_ON_DELIVERY,
+    description: 'Payment method: cash_on_delivery (pago contra entrega)',
+  })
+  payment_method?: PaymentMethod;
 
   @ApiProperty()
   @IsOptional()

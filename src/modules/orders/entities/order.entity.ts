@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
   JoinColumn,
 } from 'typeorm';
+import { PaymentMethod, OrderStatus } from '../enums';
 import { User } from '../../users/entities/users.entity';
 import { OrderItem } from '../../order-items/entities/order-item.entity';
 import { Business } from '../../business/entities/business.entity';
@@ -24,23 +25,31 @@ export class Order {
   total_amount: number;
 
   //order status
-  @Column({ type: 'varchar', length: 255 })
-  status: string;
+  @Column({
+    type: 'enum',
+    enum: OrderStatus,
+    default: OrderStatus.PENDING,
+  })
+  status: OrderStatus;
 
   //delivery latitude
-  @Column({ type: 'decimal', precision: 10, scale: 6 })
+  @Column({ type: 'decimal', precision: 10, scale: 8 })
   delivery_latitude: number;
 
   //delivery longitude
-  @Column({ type: 'decimal', precision: 10, scale: 6 })
+  @Column({ type: 'decimal', precision: 10, scale: 8 })
   delivery_longitude: number;
 
   //delivery address
   @Column({ type: 'varchar', length: 255 })
   delivery_address: string;
   //payment method
-  @Column({ type: 'varchar', length: 255 })
-  payment_method: string;
+  @Column({
+    type: 'enum',
+    enum: PaymentMethod,
+    default: PaymentMethod.CASH_ON_DELIVERY,
+  })
+  payment_method: PaymentMethod;
 
   //created at
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
