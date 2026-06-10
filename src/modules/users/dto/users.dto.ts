@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MinLength,
+} from 'class-validator';
 
 export class UsersDto {
   @ApiProperty()
@@ -7,14 +13,18 @@ export class UsersDto {
   @IsNotEmpty()
   username: string;
 
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
+  @IsEmail({}, { message: 'El correo electrónico prporcionado no es valido' })
+  @IsNotEmpty({ message: 'El correo electronico es un campo obligatorio' })
   email: string;
 
-  @ApiProperty()
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'La contraseña es un campo obligatorio' })
+  @MinLength(8, { message: 'La contraseña debe tener minimo 8 caracteres' })
+  @MinLength(8, { message: 'La contraseña debe tener minimo 8 caracteres' })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/, {
+    message:
+      'La contraseña es insegura. Debe contener obligatoriamente: al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (ej: @, $, !, %, *, ?, &).',
+  })
   password: string;
 
   @ApiProperty()
