@@ -16,10 +16,10 @@ export class Invoice {
   @Column()
   order_id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50, unique: true, nullable: false })
   invoice_number: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', length: 500, nullable: false })
   pdf_url: string;
 
   @CreateDateColumn()
