@@ -1,67 +1,101 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
+
 import { UsersService } from '../../users/services/users.service';
-import * as jwt from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+
+import { RegisterDto } from '../dto/register.dto';
+import { LoginDto } from '../dto/login.dto';
 
 @Injectable()
 export class AuthService {
 
   constructor(
-    private usersService: UsersService,
-    private jwtService: jwt.JwtService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async register(data: any) {
+  async register(registerDto: RegisterDto) {
+    try {
 
-    const hashedPassword =
-      await bcrypt.hash(data.password, 10);
+      const hashedPassword =
+        bcrypt.hashSync(registerDto.password, 10);
 
-    const user =
-      await this.usersService.create({
-        ...data,
-        password: hashedPassword,
-      });
+      const user =
+        await this.usersService.create({
+          ...registerDto,
+          password: hashedPassword,
+        });
 
-    return user;
+      const { password, ...userWithoutPassword } = user;
 
+      return {
+        ...userWithoutPassword,
+        token: this.getJwtToken(user.id),
+      };
+
+    } catch (error) {
+      this.handleDBErrors(error);
+    }
   }
 
-  async login(data: any) {
+  async login(loginDto: LoginDto) {
 
     const user =
       await this.usersService.findByEmailOrUsername(
-        data.email,
-        data.username,
+        loginDto.email,
+        loginDto.username,
       );
 
     if (!user) {
       throw new UnauthorizedException(
-        'Usuario no encontrado',
+        'Credenciales incorrectas',
       );
     }
 
-    const isPasswordValid =
-      await bcrypt.compare(
-        data.password,
+    const validPassword =
+      bcrypt.compareSync(
+        loginDto.password,
         user.password,
       );
 
-    if (!isPasswordValid) {
+    if (!validPassword) {
       throw new UnauthorizedException(
-        'Password incorrecto',
+        'Credenciales incorrectas',
       );
     }
 
-    const payload = {
-      sub: user.id,
-      email: user.email,
-    };
+    const { password, ...userWithoutPassword } = user;
 
     return {
-      access_token:
-        this.jwtService.sign(payload),
+      ...userWithoutPassword,
+      token: this.getJwtToken(user.id),
     };
-
   }
 
+  private getJwtToken(id: number) {
+    return this.jwtService.sign({
+      id,
+    });
+  }
+
+  private handleDBErrors(error: any): never {
+
+    if (error.code === '23505') {
+      throw new BadRequestException(
+        'El usuario o correo ya existe',
+      );
+    }
+
+    console.log(error);
+
+    throw new InternalServerErrorException(
+      'Error interno del servidor',
+    );
+  }
 }
