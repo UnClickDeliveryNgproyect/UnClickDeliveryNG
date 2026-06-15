@@ -14,7 +14,6 @@ import { LoginDto } from '../dto/login.dto';
 
 @Injectable()
 export class AuthService {
-
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
@@ -22,15 +21,12 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     try {
+      const hashedPassword = bcrypt.hashSync(registerDto.password, 10);
 
-      const hashedPassword =
-        bcrypt.hashSync(registerDto.password, 10);
-
-      const user =
-        await this.usersService.create({
-          ...registerDto,
-          password: hashedPassword,
-        });
+      const user = await this.usersService.create({
+        ...registerDto,
+        password: hashedPassword,
+      });
 
       const { password, ...userWithoutPassword } = user;
 
@@ -38,36 +34,25 @@ export class AuthService {
         ...userWithoutPassword,
         token: this.getJwtToken(user.id),
       };
-
     } catch (error) {
       this.handleDBErrors(error);
     }
   }
 
   async login(loginDto: LoginDto) {
-
-    const user =
-      await this.usersService.findByEmailOrUsername(
-        loginDto.email,
-        loginDto.username,
-      );
+    const user = await this.usersService.findByEmailOrUsername(
+      loginDto.email,
+      loginDto.username,
+    );
 
     if (!user) {
-      throw new UnauthorizedException(
-        'Credenciales incorrectas',
-      );
+      throw new UnauthorizedException('Credenciales incorrectas');
     }
 
-    const validPassword =
-      bcrypt.compareSync(
-        loginDto.password,
-        user.password,
-      );
+    const validPassword = bcrypt.compareSync(loginDto.password, user.password);
 
     if (!validPassword) {
-      throw new UnauthorizedException(
-        'Credenciales incorrectas',
-      );
+      throw new UnauthorizedException('Credenciales incorrectas');
     }
 
     const { password, ...userWithoutPassword } = user;
@@ -85,17 +70,12 @@ export class AuthService {
   }
 
   private handleDBErrors(error: any): never {
-
     if (error.code === '23505') {
-      throw new BadRequestException(
-        'El usuario o correo ya existe',
-      );
+      throw new BadRequestException('El usuario o correo ya existe');
     }
 
     console.log(error);
 
-    throw new InternalServerErrorException(
-      'Error interno del servidor',
-    );
+    throw new InternalServerErrorException('Error interno del servidor');
   }
 }

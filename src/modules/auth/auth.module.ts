@@ -28,18 +28,8 @@ import { UserRoleGuard } from './guards/user-role.guard';
 
   controllers: [AuthController],
 
-  providers: [
-    AuthService,
-    JwtStrategy,
-    UserRoleGuard,
-    UserPermissionGuard,
-  ],
+  providers: [AuthService, JwtStrategy, UserRoleGuard, UserPermissionGuard],
 
-  exports: [
-    PassportModule,
-    JwtModule,
-    JwtStrategy,
-    UserPermissionGuard,
-  ],
+  exports: [PassportModule, JwtModule, JwtStrategy, UserPermissionGuard],
 })
 export class AuthModule {}
