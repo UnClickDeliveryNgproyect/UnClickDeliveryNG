@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 
 import { Reflector } from '@nestjs/core';
-
 import { META_PERMISSIONS } from '../decorator/permission-protected.decorator';
 
 @Injectable()

@@ -30,7 +30,8 @@ export class UserRoleGuard implements CanActivate {
       throw new ForbiddenException('Usuario no autenticado');
     }
 
-    if (roles.includes(user.role?.name)) {
+    // El campo `role` del usuario es un string (ver User entity)
+    if (roles.includes(user.role)) {
       return true;
     }
 
