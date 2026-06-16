@@ -22,15 +22,16 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     try {
+      const hashedPassword = bcrypt.hashSync(registerDto.password, 10);
 
-      const hashedPassword =
-        bcrypt.hashSync(registerDto.password, 10);
+      // Forzamos a que la respuesta se maneje como la entidad única User
+      const userResult = await this.usersService.create({
+        ...registerDto,
+        password: hashedPassword,
+      });
 
-      const user =
-        await this.usersService.create({
-          ...registerDto,
-          password: hashedPassword,
-        });
+      // Si el servicio devuelve un array por error, tomamos el primer elemento, de lo contrario el objeto
+      const user = Array.isArray(userResult) ? userResult[0] : userResult;
 
       const { password, ...userWithoutPassword } = user;
 
@@ -45,29 +46,21 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-
-    const user =
-      await this.usersService.findByEmailOrUsername(
-        loginDto.email,
-        loginDto.username,
-      );
+    // CORREGIDO: Le pasamos loginDto.username en ambos parámetros 
+    // para cumplir con la firma del método (email, username) usando solo el username.
+    const user = await this.usersService.findByEmailOrUsername(
+      loginDto.username,
+      loginDto.username,
+    );
 
     if (!user) {
-      throw new UnauthorizedException(
-        'Credenciales incorrectas',
-      );
+      throw new UnauthorizedException('Credenciales incorrectas');
     }
 
-    const validPassword =
-      bcrypt.compareSync(
-        loginDto.password,
-        user.password,
-      );
+    const validPassword = bcrypt.compareSync(loginDto.password, user.password);
 
     if (!validPassword) {
-      throw new UnauthorizedException(
-        'Credenciales incorrectas',
-      );
+      throw new UnauthorizedException('Credenciales incorrectas');
     }
 
     const { password, ...userWithoutPassword } = user;
@@ -79,23 +72,14 @@ export class AuthService {
   }
 
   private getJwtToken(id: number) {
-    return this.jwtService.sign({
-      id,
-    });
+    return this.jwtService.sign({ id });
   }
 
   private handleDBErrors(error: any): never {
-
     if (error.code === '23505') {
-      throw new BadRequestException(
-        'El usuario o correo ya existe',
-      );
+      throw new BadRequestException('El usuario o correo ya existe');
     }
-
     console.log(error);
-
-    throw new InternalServerErrorException(
-      'Error interno del servidor',
-    );
+    throw new InternalServerErrorException('Error interno del servidor');
   }
 }

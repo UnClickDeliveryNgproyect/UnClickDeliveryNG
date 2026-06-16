@@ -4,9 +4,8 @@ import {
   Injectable,
   ForbiddenException,
 } from '@nestjs/common';
-
 import { Reflector } from '@nestjs/core';
-import { META_ROLES } from '../decorators/role-protected.decorator';
+import { META_ROLES } from '../decorator/role-protected.decorator'; // Verifica si lleva 's' al final
 
 @Injectable()
 export class UserRoleGuard implements CanActivate {
@@ -15,37 +14,25 @@ export class UserRoleGuard implements CanActivate {
     private readonly reflector: Reflector,
   ) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean {
-
-    const roles =
-      this.reflector.get<string[]>(
-        META_ROLES,
-        context.getHandler(),
-      );
+  canActivate(context: ExecutionContext): boolean {
+    const roles = this.reflector.get<string[]>(META_ROLES, context.getHandler());
 
     if (!roles || roles.length === 0) {
       return true;
     }
 
-    const request =
-      context.switchToHttp().getRequest();
-
+    const request = context.switchToHttp().getRequest();
     const user = request.user;
 
     if (!user) {
-      throw new ForbiddenException(
-        'Usuario no autenticado',
-      );
+      throw new ForbiddenException('Usuario no autenticado');
     }
 
-    if (roles.includes(user.role?.name)) {
+    // Corregido: user.role es un string (ej: 'admin', 'client', 'driver')
+    if (roles.includes(user.role)) {
       return true;
     }
 
-    throw new ForbiddenException(
-      'No tienes permisos',
-    );
+    throw new ForbiddenException(`El usuario requiere uno de los siguientes roles: [${roles}]`);
   }
 }
