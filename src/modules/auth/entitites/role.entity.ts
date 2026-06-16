@@ -10,7 +10,6 @@ import { Permission } from './permission.entity';
 
 @Entity('roles')
 export class Role {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,11 +19,9 @@ export class Role {
   @Column({ nullable: true })
   description: string;
 
-  @ManyToMany(
-    () => Permission,
-    permission => permission.roles,
-    { eager: true },
-  )
+  @ManyToMany(() => Permission, (permission) => permission.roles, {
+    eager: true,
+  })
   @JoinTable({
     name: 'role_permissions',
   })
