@@ -24,13 +24,13 @@ export class AuthService {
     try {
       const hashedPassword = bcrypt.hashSync(registerDto.password, 10);
 
-      // Forzamos a que la respuesta se maneje como la entidad única User
+      
       const userResult = await this.usersService.create({
         ...registerDto,
         password: hashedPassword,
       });
 
-      // Si el servicio devuelve un array por error, tomamos el primer elemento, de lo contrario el objeto
+      
       const user = Array.isArray(userResult) ? userResult[0] : userResult;
 
       const { password, ...userWithoutPassword } = user;
@@ -46,8 +46,7 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    // CORREGIDO: Le pasamos loginDto.username en ambos parámetros 
-    // para cumplir con la firma del método (email, username) usando solo el username.
+   
     const user = await this.usersService.findByEmailOrUsername(
       loginDto.username,
       loginDto.username,

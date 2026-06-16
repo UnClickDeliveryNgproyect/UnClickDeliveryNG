@@ -12,12 +12,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'secretKey123', // Asegúrate de usar una variable de entorno en producción
+      secretOrKey: 'secretKey123', 
     });
   }
 
   async validate(payload: any) {
-    // Corregido: cambiamos payload.sub por payload.id que es el que firmas en auth.service
+    
     const user = await this.usersService.findOne(payload.id);
 
     if (!user) {

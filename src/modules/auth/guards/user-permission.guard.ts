@@ -29,11 +29,10 @@ export class UserPermissionGuard implements CanActivate {
       throw new BadRequestException('Usuario no encontrado');
     }
 
-    // Lógica simplificada basada en tu propiedad role string:
-    // Si es administrador del ecosistema multi-productos, le otorgamos acceso total
+    
     if (user.role === 'admin') return true;
 
-    // Puedes mapear permisos básicos por defecto según el rol string si lo requieres
+   
     const userPermissions: string[] = []; 
     
     const hasPermissions = permissions.every(permission =>

@@ -9,7 +9,6 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 export class UsersService {
 
   constructor(
-    // ¡ESTA ES LA INYECCIÓN CORRECTA DEL REPOSITORIO!
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
@@ -32,7 +31,7 @@ export class UsersService {
   }
 
   async findByEmailOrUsername(email: string, username: string) {
-    // Tu lógica actual para buscar por email o username
+
     return await this.userRepository.findOne({
       where: [
         { email: email },
@@ -43,14 +42,12 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.findOne(id);
-    // Usamos el userRepository aquí, de forma interna en el servicio
     const updatedUser = this.userRepository.merge(user, updateUserDto);
     return await this.userRepository.save(updatedUser);
   }
 
   async remove(id: number) {
     const user = await this.findOne(id);
-    // Soft delete usando el repositorio de TypeORM
     await this.userRepository.softRemove(user);
     return {
       message: `El usuario con ID ${id} ha sido desactivado correctamente del sistema Unclick Delivery NG`,

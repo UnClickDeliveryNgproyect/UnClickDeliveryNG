@@ -23,12 +23,10 @@ export class Category {
   @Column({ type: 'int', nullable: true })
   business_id: number;
 
-  // Relación: Una categoría pertenece a un negocio
   @ManyToOne(() => Business, (business) => business.categories)
   @JoinColumn({ name: 'business_id' })
   business: Business;
 
-  // Relación: Una categoría contiene múltiples productos
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];
 }

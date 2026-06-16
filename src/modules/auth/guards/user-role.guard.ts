@@ -28,7 +28,7 @@ export class UserRoleGuard implements CanActivate {
       throw new ForbiddenException('Usuario no autenticado');
     }
 
-    // Corregido: user.role es un string (ej: 'admin', 'client', 'driver')
+   
     if (roles.includes(user.role)) {
       return true;
     }
