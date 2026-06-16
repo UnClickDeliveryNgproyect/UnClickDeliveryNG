@@ -28,11 +28,11 @@ export class AuthService {
         password: hashedPassword,
       });
 
-      const { password, ...userWithoutPassword } = user;
+      const { password, ...userWithoutPassword } = user[0];
 
       return {
         ...userWithoutPassword,
-        token: this.getJwtToken(user.id),
+        token: this.getJwtToken(user[0].id),
       };
     } catch (error) {
       this.handleDBErrors(error);

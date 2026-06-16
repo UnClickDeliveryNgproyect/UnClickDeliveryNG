@@ -32,7 +32,9 @@ export class CategoriesService {
 
   async create(createCategoryDto: any): Promise<Category> {
     const category = this.categoryRepository.create(createCategoryDto);
-    return (await this.categoryRepository.save(category)) as unknown as Category;
+    return (await this.categoryRepository.save(
+      category,
+    )) as unknown as Category;
   }
 
   async update(id: number, updateCategoryDto: any): Promise<Category> {

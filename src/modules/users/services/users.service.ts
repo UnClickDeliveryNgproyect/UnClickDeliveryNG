@@ -13,12 +13,13 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return await this.userRepository.find({
       select: ['id', 'username', 'email', 'role', 'created_at', 'updated_at'],
       relations: ['business', 'orders', 'ownedBusinesses', 'deliveries'],
     });
   }
+
 
   async create(data: any) {
     const user = this.userRepository.create(data);

@@ -13,6 +13,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
+
+  async validate(payload: any) {
+    // usersService solo expone findByEmailOrUsername/findAll/create en este repo
+    // payload.sub viene del token, aquí asumimos que es el id del usuario
+    const user = await this.usersService.findAll();
   async validate(payload: JwtPayload) {
     const user = await this.usersService.findOne(payload.id);
 
