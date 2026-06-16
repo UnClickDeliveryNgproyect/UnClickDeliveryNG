@@ -14,7 +14,6 @@ import { LoginDto } from '../dto/login.dto';
 
 @Injectable()
 export class AuthService {
-
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
@@ -33,13 +32,12 @@ export class AuthService {
       
       const user = Array.isArray(userResult) ? userResult[0] : userResult;
 
-      const { password, ...userWithoutPassword } = user;
+      const { password, ...userWithoutPassword } = user[0];
 
       return {
         ...userWithoutPassword,
-        token: this.getJwtToken(user.id),
+        token: this.getJwtToken(user[0].id),
       };
-
     } catch (error) {
       this.handleDBErrors(error);
     }

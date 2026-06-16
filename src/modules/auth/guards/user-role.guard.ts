@@ -5,11 +5,17 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { META_ROLES } from '../decorator/role-protected.decorator'; // Verifica si lleva 's' al final
+ authAndUsers
+import { META_ROLES } from '../decorator/role-protected.decorator';
+
+import { META_ROLES } from '../decorator/role-protected.decorator';
+ main
 
 @Injectable()
 export class UserRoleGuard implements CanActivate {
+  constructor(private readonly reflector: Reflector) {}
 
+ authAndUsers
   constructor(
     private readonly reflector: Reflector,
   ) {}
@@ -17,11 +23,22 @@ export class UserRoleGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.get<string[]>(META_ROLES, context.getHandler());
 
+  canActivate(context: ExecutionContext): boolean {
+    const roles = this.reflector.get<string[]>(
+      META_ROLES,
+      context.getHandler(),
+    );
+ main
+
     if (!roles || roles.length === 0) {
       return true;
     }
 
     const request = context.switchToHttp().getRequest();
+ authAndUsers
+
+
+ main
     const user = request.user;
 
     if (!user) {

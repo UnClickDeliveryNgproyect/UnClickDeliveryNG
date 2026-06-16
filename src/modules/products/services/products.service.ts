@@ -41,7 +41,10 @@ export class ProductsService {
     });
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
+  async update(
+    id: number,
+    updateProductDto: UpdateProductDto,
+  ): Promise<Product> {
     const product = await this.productRepository.preload({
       id,
       ...updateProductDto,
