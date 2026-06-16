@@ -1,37 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../entities/users.entity';
+import { User } from '../entities/users.entity'; // Ajusta la ruta según tus carpetas
+import { UsersDto } from '../dto/users.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-  findOne(sub: any) {
-    throw new Error('Method not implemented.');
-  }
+
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private readonly userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    return await this.userRepository.find({
-      select: ['id', 'username', 'email', 'role', 'created_at', 'updated_at'],
-      relations: ['business', 'orders', 'ownedBusinesses', 'deliveries'],
-    });
+  async create(createUserDto: UsersDto) {
+    const newUser = this.userRepository.create(createUserDto);
+    return await this.userRepository.save(newUser);
   }
 
-
-  async create(data: any) {
-    const user = this.userRepository.create(data);
-    return await this.userRepository.save(user);
+  async findAll() {
+    return await this.userRepository.find();
   }
 
-  async findByEmailOrUsername(
-    email?: string,
-    username?: string,
-  ): Promise<User | null> {
+  async findOne(id: number) {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
+    }
+    return user;
+  }
+
+  async findByEmailOrUsername(email: string, username: string) {
+
     return await this.userRepository.findOne({
-      where: [{ email }, { username }],
+      where: [
+        { email: email },
+        { username: username }
+      ]
     });
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.findOne(id);
+    const updatedUser = this.userRepository.merge(user, updateUserDto);
+    return await this.userRepository.save(updatedUser);
+  }
+
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    await this.userRepository.softRemove(user);
+    return {
+      message: `El usuario con ID ${id} ha sido desactivado correctamente del sistema Unclick Delivery NG`,
+    };
   }
 }

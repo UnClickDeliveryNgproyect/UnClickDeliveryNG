@@ -36,20 +36,16 @@ export class Business {
   @Column({ type: 'int', nullable: true })
   owner_id: number;
 
-  // Relación: Un negocio pertenece a un usuario propietario
   @ManyToOne(() => User, (user) => user.ownedBusinesses)
   @JoinColumn({ name: 'owner_id' })
   owner: User;
 
-  // Relación: Un negocio tiene múltiples empleados/usuarios
   @OneToMany(() => User, (user) => user.business)
   employees: User[];
 
-  // Relación: Un negocio tiene múltiples categorías
   @OneToMany(() => Category, (category) => category.business)
   categories: Category[];
 
-  // Relación: Un negocio puede tener múltiples órdenes
   @OneToMany(() => Order, (order) => order.business)
   orders: Order[];
 }

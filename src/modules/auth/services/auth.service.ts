@@ -23,10 +23,14 @@ export class AuthService {
     try {
       const hashedPassword = bcrypt.hashSync(registerDto.password, 10);
 
-      const user = await this.usersService.create({
+      
+      const userResult = await this.usersService.create({
         ...registerDto,
         password: hashedPassword,
       });
+
+      
+      const user = Array.isArray(userResult) ? userResult[0] : userResult;
 
       const { password, ...userWithoutPassword } = user[0];
 
@@ -40,8 +44,9 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
+   
     const user = await this.usersService.findByEmailOrUsername(
-      loginDto.email,
+      loginDto.username,
       loginDto.username,
     );
 
@@ -64,18 +69,14 @@ export class AuthService {
   }
 
   private getJwtToken(id: number) {
-    return this.jwtService.sign({
-      id,
-    });
+    return this.jwtService.sign({ id });
   }
 
   private handleDBErrors(error: any): never {
     if (error.code === '23505') {
       throw new BadRequestException('El usuario o correo ya existe');
     }
-
     console.log(error);
-
     throw new InternalServerErrorException('Error interno del servidor');
   }
 }

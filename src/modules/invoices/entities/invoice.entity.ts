@@ -25,7 +25,6 @@ export class Invoice {
   @CreateDateColumn()
   generated_at: Date;
 
-  // Relación: Una factura pertenece a una orden
   @ManyToOne(() => Order, (order) => order.invoice)
   @JoinColumn({ name: 'order_id' })
   order: Order;
