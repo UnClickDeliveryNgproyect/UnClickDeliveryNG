@@ -23,20 +23,19 @@ export class AuthService {
     try {
       const hashedPassword = bcrypt.hashSync(registerDto.password, 10);
 
-      
       const userResult = await this.usersService.create({
         ...registerDto,
         password: hashedPassword,
       });
 
-      
       const user = Array.isArray(userResult) ? userResult[0] : userResult;
 
-      const { password, ...userWithoutPassword } = user[0];
+      const userWithoutPassword = { ...user };
+      delete userWithoutPassword.password;
 
       return {
         ...userWithoutPassword,
-        token: this.getJwtToken(user[0].id),
+        token: this.getJwtToken(user.id),
       };
     } catch (error) {
       this.handleDBErrors(error);
@@ -44,7 +43,6 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-   
     const user = await this.usersService.findByEmailOrUsername(
       loginDto.username,
       loginDto.username,
@@ -60,7 +58,8 @@ export class AuthService {
       throw new UnauthorizedException('Credenciales incorrectas');
     }
 
-    const { password, ...userWithoutPassword } = user;
+    const userWithoutPassword = { ...user };
+    delete userWithoutPassword.password;
 
     return {
       ...userWithoutPassword,

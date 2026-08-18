@@ -14,7 +14,6 @@ import { Business } from '../../business/entities/business.entity';
 
 @Entity()
 export class User {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -39,8 +38,7 @@ export class User {
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
 
-
-  @DeleteDateColumn({ type: 'timestamp', nullable: true }) 
+  @DeleteDateColumn({ type: 'timestamp', nullable: true })
   deleted_at: Date;
 
   @ManyToOne(() => Business, (business) => business.employees, {

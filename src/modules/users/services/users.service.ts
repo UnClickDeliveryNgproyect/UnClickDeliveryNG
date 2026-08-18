@@ -7,7 +7,6 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -31,12 +30,8 @@ export class UsersService {
   }
 
   async findByEmailOrUsername(email: string, username: string) {
-
     return await this.userRepository.findOne({
-      where: [
-        { email: email },
-        { username: username }
-      ]
+      where: [{ email: email }, { username: username }],
     });
   }
 
