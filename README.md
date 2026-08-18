@@ -36,3 +36,17 @@ git commit -m "feat: agrega el controlador y servicio de reportes"
 
 11. Sube tu rama a GitHub
 git push origin feature/modulo-reportes o modulo-arreglo
+
+## Correcciones recientes
+
+- Se corrigieron errores en los guards de autenticación (`UserRoleGuard`, `UserPermissionGuard`).
+- Se solucionaron advertencias de lint en `AuthService`.
+- Se añadió un archivo de ejemplo `.env.example` con las variables necesarias para la base de datos.
+
+## Siguientes pasos para poner en producción
+
+1. Crear una base de datos PostgreSQL y configurar las variables en `.env` (usar `.env.example` como referencia).
+2. Instalar dependencias: `npm install`.
+3. Compilar: `npm run build`.
+4. Ejecutar en producción: `npm run start:prod` o usar un proceso administrativo como PM2 / Docker.
+5. (Opcional) Cambiar el `secret` del `JwtModule` por una variable de entorno segura para producción.

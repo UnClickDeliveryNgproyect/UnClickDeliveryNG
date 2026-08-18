@@ -5,19 +5,15 @@ import { UsersService } from '../../users/services/users.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-
-  constructor(
-    private readonly usersService: UsersService,
-  ) {
+  constructor(private readonly usersService: UsersService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'secretKey123', 
+      secretOrKey: 'secretKey123',
     });
   }
 
   async validate(payload: any) {
-    
     const user = await this.usersService.findOne(payload.id);
 
     if (!user) {
