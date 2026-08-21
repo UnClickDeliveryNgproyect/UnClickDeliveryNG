@@ -10,8 +10,10 @@ import {
 import { ProductsService } from '../services/products.service';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
+import { Auth } from '../../auth/decorator/auth.decorator';
 
 @Controller('products')
+@Auth()
 export class ProductController {
   constructor(private readonly productsService: ProductsService) {}
 

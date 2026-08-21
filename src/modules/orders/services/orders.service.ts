@@ -19,14 +19,14 @@ export class OrdersService {
 
   async findAll() {
     return this.ordersRepository.find({
-      relations: ['client', 'business', 'driver', 'items', 'invoice'],
+      relations: ['client', 'business', 'items', 'invoice'],
     });
   }
 
   async findOne(id: number) {
     const order = await this.ordersRepository.findOne({
       where: { id },
-      relations: ['client', 'business', 'driver', 'items', 'invoice'],
+      relations: ['client', 'business', 'items', 'invoice'],
     });
     if (!order) {
       throw new NotFoundException(`Order #${id} not found`);

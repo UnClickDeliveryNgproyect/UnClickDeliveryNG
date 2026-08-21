@@ -1,8 +1,10 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { BusinessService } from '../services/business.service';
 import { CreateBusinessDto } from '../dto/business.dto';
+import { Auth } from '../../auth/decorator/auth.decorator';
 
 @Controller('business')
+@Auth()
 export class BusinessController {
   constructor(private readonly businessService: BusinessService) {}
 

@@ -1,4 +1,4 @@
-import { Business } from 'src/modules/business/entities/business.entity';
+import { Business } from '../../business/entities/business.entity';
 import {
   Column,
   Entity,

@@ -52,7 +52,4 @@ export class User {
 
   @OneToMany(() => Business, (business) => business.owner)
   ownedBusinesses: Business[];
-
-  @OneToMany(() => Order, (order) => order.driver)
-  deliveries: Order[];
 }

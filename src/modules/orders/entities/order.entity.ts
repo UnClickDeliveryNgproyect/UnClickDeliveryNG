@@ -75,13 +75,6 @@ export class Order {
   @JoinColumn({ name: 'client_id' })
   client: User;
 
-  @Column({ type: 'int', nullable: true })
-  driver_id: number;
-
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'driver_id' })
-  driver: User;
-
   @OneToMany(() => OrderItem, (item) => item.order)
   items: OrderItem[];
 

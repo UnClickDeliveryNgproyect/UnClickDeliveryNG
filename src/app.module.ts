@@ -20,7 +20,7 @@ import { OrderItemsModule } from './modules/order-items/order-items.module';
     InvoicesModule,
     OrdersModule,
     OrderItemsModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -29,7 +29,7 @@ import { OrderItemsModule } from './modules/order-items/order-items.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: process.env.DB_SYNCHRONIZE === 'true',
     }),
   ],
   controllers: [],
