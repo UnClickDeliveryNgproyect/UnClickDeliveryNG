@@ -17,9 +17,9 @@ ORM: TypeORM
 1. Clonar el repositorio
 2. Entrar al proyecto
 *cd UnClickDeliveryNG
-3. Descargar dependencia
+3. Instalar dependencias
 *npm install
-4. Editar el archivo .env (Para que el backend use el PostgreSQL)
+4. Crear el archivo .env a partir de .env.example y configurar PostgreSQL y JWT_SECRET
 5. Crear la base de datos
 6. Asegurar estar en la rama principal para trabajar el proyecto
 *git checkout principal
@@ -46,7 +46,6 @@ git push origin feature/modulo-reportes o modulo-arreglo
 ## Siguientes pasos para poner en producción
 
 1. Crear una base de datos PostgreSQL y configurar las variables en `.env` (usar `.env.example` como referencia).
-2. Instalar dependencias: `npm install`.
+2. Instalar dependencias: `npm install` (o `npm ci` para una instalación exacta desde `package-lock.json`).
 3. Compilar: `npm run build`.
 4. Ejecutar en producción: `npm run start:prod` o usar un proceso administrativo como PM2 / Docker.
-5. (Opcional) Cambiar el `secret` del `JwtModule` por una variable de entorno segura para producción.

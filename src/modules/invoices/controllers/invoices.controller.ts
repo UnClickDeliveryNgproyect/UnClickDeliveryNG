@@ -11,8 +11,10 @@ import {
 import { InvoicesService } from '../services/invoices.service';
 import { CreateInvoiceDto } from '../dto/create-invoice.dto';
 import { UpdateInvoiceDto } from '../dto/update-invoice.dto';
+import { Auth } from '../../auth/decorator/auth.decorator';
 
 @Controller('invoices')
+@Auth()
 export class InvoicesController {
   constructor(private readonly invoicesService: InvoicesService) {}
 

@@ -11,8 +11,10 @@ import {
 import { UsersService } from '../services/users.service';
 import { UsersDto } from '../dto/users.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { Auth } from '../../auth/decorator/auth.decorator';
 
 @Controller('users')
+@Auth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

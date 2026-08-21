@@ -10,8 +10,10 @@ import {
 import { OrderItemsService } from '../services/order-items.service';
 import { CreateOrderItemDto } from '../dto/create-order-item.dto';
 import { UpdateOrderItemDto } from '../dto/update-order-item.dto';
+import { Auth } from '../../auth/decorator/auth.decorator';
 
 @Controller('order-items')
+@Auth()
 export class OrderItemsController {
   constructor(private readonly orderItemsService: OrderItemsService) {}
 

@@ -9,20 +9,24 @@ import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UserRoleGuard } from './guards/user-role.guard';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     UsersModule,
+    ConfigModule,
 
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),
 
-    JwtModule.register({
-      secret: 'secretKey123',
-      signOptions: {
-        expiresIn: '1d',
-      },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.getOrThrow<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '1d' },
+      }),
     }),
   ],
 
